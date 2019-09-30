@@ -99,5 +99,3 @@ for t in range(100):
 
 plt.ioff()  # 停止画图
 plt.show()
-
-#%%
