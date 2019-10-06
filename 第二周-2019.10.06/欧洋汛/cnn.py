@@ -109,10 +109,10 @@ for epoch in range(EPOCH):
 
 
 #%%
-test_output = cnn(test_x[:10])
+test_output = cnn(test_x[20:60])
 pred_y = torch.max(test_output, 1)[1].data.numpy().squeeze()
 print(pred_y, "prediction number")
-print(test_y[:10].numpy(), "real number")
+print(test_y[20:60].numpy(), "real number")
 
 """
 [7 2 1 0 4 1 4 9 5 9] prediction number
