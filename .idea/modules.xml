@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/.idea/CodePractice.iml" filepath="$PROJECT_DIR$/.idea/CodePractice.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/.idea/项目.iml" filepath="$PROJECT_DIR$/.idea/项目.iml" />
->>>>>>> origin/master
+      <module fileurl="file://$PROJECT_DIR$/.idea/练代码.iml" filepath="$PROJECT_DIR$/.idea/练代码.iml" />
     </modules>
   </component>
 </project>
