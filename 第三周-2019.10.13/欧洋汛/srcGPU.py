@@ -191,10 +191,9 @@ images, labels = next(data_iter)
 #取出一个batch中的一张图片
 image = images[3].numpy()
 image = np.transpose(image, (1, 2, 0))
-plt.imsave('testpic.png', image)
-print('图片存储在testpic')
-classes[labels[3].numpy()] #输出真实标签
-
+plt.imshow(image)
+plt.title(classes[labels[3].numpy()]) #输出真实标签
+plt.show()
 #%%%%%%%%
 #开始测试
 imagebatch = image.reshape(-1, 3, 32, 32)  #调整为(B,C,H,W)

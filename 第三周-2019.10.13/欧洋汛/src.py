@@ -91,16 +91,17 @@ test_loader = torch.utils.data.DataLoader(
 )
 
 
-# #%%
-# # DataLoader支持iter的方式访问但是不支持其他方式访问
-# idx = 12
-# data_iter = iter(test_loader)
-# img, label = next(data_iter)
-# image = img[idx].numpy()
-# # 因为第一个维度是通道数即为3 第二三个是32 所有要有调换维度的操作
-# image = np.transpose(image, (1, 2, 0))
-# plt.imshow(image)
-# classes[label[idx]]
+#%%
+# DataLoader支持iter的方式访问但是不支持其他方式访问
+idx = 12
+data_iter = iter(test_loader)
+img, label = next(data_iter)
+image = img[idx].numpy()
+# 因为第一个维度是通道数即为3 第二三个是32 所有要有调换维度的操作
+image = np.transpose(image, (1, 2, 0))
+plt.imshow(image)
+plt.show()
+classes[label[idx]]
 
 
 #%%
@@ -164,5 +165,46 @@ for epoch in range(num_epoch):
         if (i + 1) % 100 == 0:
             #loss.item() 返回的是传播的梯度
             print("Epoch [{}/{}],Step [{}/{}],Loss:{:.4f}".format(epoch+1,num_epoch,i+1,total_step,loss.item()))
+#%%
+#测试
+model.eval()
+
+# 节省计算资源，不去计算梯度
+with torch.no_grad():
+    correct = 0
+    total = 0
+    for images, labels in test_loader:
+        outputs = model(images)
+        _, predicted = torch.max(outputs.data, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
+
+    print('Test Accuracy of the model on the test images: {} %'.format(100 * correct / total))
+
+#取其中一组
+data_iter = iter(test_loader)
+images, labels = next(data_iter)
+
+#取出一个batch中的一张图片
+image = images[3].numpy()
+image = np.transpose(image, (1, 2, 0))
+plt.imshow(image)
+plt.title(classes[labels[3].numpy()]) #输出真实标签
+plt.show()
+#%%%%%%%%
+#开始测试
+imagebatch = image.reshape(-1, 3, 32, 32)  #调整为(B,C,H,W)
+
+#转化为torch tensor
+image_tensor = torch.from_numpy(imagebatch)
+#模型评估
+model.eval()
+output = model(image_tensor.to(device))#输出的标签
+_, predicted = torch.max(output.data, 1)  #取预测值
+pre = predicted.cpu().numpy
+print('预测结果')
+print(pre)
+print(classes[pre[0]])
+
 #%%
 
