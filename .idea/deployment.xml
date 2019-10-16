@@ -2,10 +2,10 @@
 <project version="4">
   <component name="PublishConfigData" serverName="lab">
     <serverData>
-      <paths name="lab">
+      <paths name="lhf@222.197.219.7:7772">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="E:/sys" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
