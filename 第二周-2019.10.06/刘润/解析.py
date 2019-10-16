@@ -19,5 +19,5 @@ def xmlxixni(xmlpath):
     print(box_name)
     print(len(box_name))
 
-xmlpath = "D:/项目/第二周-2019.10.06/xml文件/xml"
+xmlpath = "D:/项目/第二周-2019.10.06/xml文件/xml/"
 xmlxixni(xmlpath)
