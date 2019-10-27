@@ -12,7 +12,7 @@ import torchvision.transforms as transforms
 
 # 设备设置
 if torch.cuda.is_available() == True:
-    torch.cuda.set_device(1)  # 这句用来设置pytorch在哪块GPU上运行，pytorch-cpu版本不需要运行这句
+    torch.cuda.set_device(0)  # 这句用来设置pytorch在哪块GPU上运行，pytorch-cpu版本不需要运行这句
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 超参数
