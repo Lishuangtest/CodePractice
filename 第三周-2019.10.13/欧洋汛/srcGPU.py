@@ -18,7 +18,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # 超参数
 num_epoch = 5  # 训练5轮
 num_class = 10  # 10类数据
-BATCH_SIZE = 32  # 每个batch有32个数据
+BATCH_SIZE = 64  # 每个batch有32个数据
 LR = 0.001  # 学习率
 
 #%%
@@ -69,7 +69,7 @@ transform = transforms.Compose(
 #%%
 # 加载数据
 cifar10Path = ".\cifar-10-python"
-DOWNLOAD = False
+DOWNLOAD = True
 
 # 训练集合
 train_dataset = torchvision.datasets.CIFAR10(
