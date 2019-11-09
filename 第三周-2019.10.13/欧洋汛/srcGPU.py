@@ -16,7 +16,7 @@ if torch.cuda.is_available() == True:
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 超参数
-num_epoch = 5  # 训练5轮
+num_epoch = 20  # 训练5轮
 num_class = 10  # 10类数据
 BATCH_SIZE = 64  # 每个batch有32个数据
 LR = 0.001  # 学习率
@@ -56,6 +56,7 @@ transform = transforms.Compose(
         # 随机水平翻转
         transforms.RandomHorizontalFlip(),
         # 随机左右旋转40度
+        transforms.RandomRotation(40),
         transforms.RandomRotation(20),
         # 随机裁剪至32x32
         transforms.RandomCrop(32),
@@ -112,7 +113,7 @@ class CNN(nn.Module):
         super(CNN, self).__init__()
         self.conv1 = nn.Sequential(
             # 卷积层
-            nn.Conv2d(3, 16, kernel_size=5, stride=1, padding=2),
+            nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=2),
             # 批归一化
             nn.BatchNorm2d(16),
             # ReLU 激活
@@ -121,18 +122,40 @@ class CNN(nn.Module):
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
         self.conv2 = nn.Sequential(
-            nn.Conv2d(16, 32, kernel_size=5, stride=1, padding=2),
+            nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=2),
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
+        self.conv3 = nn.Sequential(
+            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=2),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+        )
+        self.conv4 = nn.Sequential(
+            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=2),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+        )
 
-        self.fc = nn.Linear(8 * 8 * 32, num_class)  # ?和下面的reshap有关 搞懂
+        self.conv5 = nn.Sequential(
+            nn.Conv2d(128, 64, kernel_size=3, stride=1, padding=2),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+        )
+
+        self.fc = nn.Linear(2 * 2 * 64, num_class)  # ?和下面的reshap有关 搞懂
 
     # 向前传播
     def forward(self, x):
         out = self.conv1(x)
         out = self.conv2(out)
+        out = self.conv3(out)
+        out = self.conv4(out)
+        out = self.conv5(out)
         out = out.reshape(out.size(0), -1)  # ?什么意思弄懂
         out = self.fc(out)
         return out
@@ -207,6 +230,5 @@ _, predicted = torch.max(output.data, 1)  #取预测值
 pre = predicted.cpu().numpy
 print('预测结果')
 print(pre)
-print(classes[pre[0]])
 
 #%%
